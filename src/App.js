@@ -19,15 +19,28 @@ class App extends Component {
     filter: '',
   };
 
-  addContactHandler = formState => {
-    const contact = {
-      ...formState,
-      id: nanoid(),
-    };
+  checkContactHandler = formState => {
+    this.emptyCheckFn(formState);
 
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, contact],
-    }));
+    // const lowerCaseName = formState.name.toLowerCase();
+    // const contact = {
+    //   ...formState,
+    //   id: nanoid(),
+    // };
+
+    // this.setState(prevState => {
+    //   const findInArray = prevState.contacts.find(({ name }) => {
+    //     const lowerCaseStateName = name.toLowerCase();
+    //     return lowerCaseStateName === lowerCaseName;
+    //   });
+
+    //   if (findInArray) {
+    //     return alert(`${formState.name} is already in your contacts!`);
+    //   }
+    //   return {
+    //     contacts: [...prevState.contacts, contact],
+    //   };
+    // });
   };
 
   deleteContactHandler = id => {
@@ -57,16 +70,53 @@ class App extends Component {
     return filteredContacts;
   };
 
+  emptyCheckFn = ({ name, number }) => {
+    if (!name) {
+      return alert('Please enter name!');
+    }
+    if (!number) {
+      return alert('Please enter number!');
+    }
+    this.addContactHandler({ name, number });
+  };
+
+  addContactHandler = ({ name, number }) => {
+    const lowerCaseName = name.toLowerCase();
+    const contact = {
+      name,
+      number,
+      id: nanoid(),
+    };
+
+    this.setState(prevState => {
+      const findInArray = prevState.contacts.find(({ name }) => {
+        const lowerCaseStateName = name.toLowerCase();
+        return lowerCaseStateName === lowerCaseName;
+      });
+
+      if (findInArray) {
+        return alert(`${name} is already in your contacts!`);
+      }
+      return {
+        contacts: [...prevState.contacts, contact],
+      };
+    });
+  };
+
   render() {
-    const { filterContactsHandler, addContactHandler, filterChangeHandler, deleteContactHandler } =
-      this;
+    const {
+      filterContactsHandler,
+      checkContactHandler,
+      filterChangeHandler,
+      deleteContactHandler,
+    } = this;
 
     const contacts = filterContactsHandler();
 
     return (
       <>
         <Section title={'Phonebook'} classEl={'phonebook'}>
-          <Form submitedData={addContactHandler} />
+          <Form submitedData={checkContactHandler} />
           <Input
             labelName="Find contact by name"
             value={this.state.filter}
