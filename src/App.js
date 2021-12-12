@@ -3,7 +3,6 @@ import { nanoid } from 'nanoid';
 
 import Section from './shared/components/Section';
 import Form from './components/Form';
-// import Filter from './components/Filter';
 import Input from './shared/components/Input';
 import ContactList from './components/ContactList';
 
@@ -66,21 +65,21 @@ class App extends Component {
 
     return (
       <>
-        <Section title={'Phonebook'}>
+        <Section title={'Phonebook'} classEl={'phonebook'}>
           <Form submitedData={addContactHandler} />
-        </Section>
-
-        <Section title={'Contacts'}>
           <Input
-            labelName="Find contact by name:"
+            labelName="Find contact by name"
             value={this.state.filter}
             onChange={filterChangeHandler}
             type="text"
             name="filter"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            placeholderValue="Search"
           />
+        </Section>
 
+        <Section title={'Contacts'} classEl={'contacts'}>
           <ContactList contacts={contacts} onDeleteItem={deleteContactHandler} />
         </Section>
       </>

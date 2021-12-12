@@ -1,18 +1,26 @@
 import PropTypes from 'prop-types';
-// import styles from './ContactList.module.css';
+import toonavatar from 'cartoon-avatar';
+import styles from './ContactList.module.css';
 
 import Button from '../../shared/components/Button';
 
 const ContactList = ({ contacts, onDeleteItem }) => {
   return (
-    <ul>
+    <ul className={styles.contactList}>
       {contacts.map(({ id, name, number }) => (
-        <li key={id}>
-          <p>
-            {name}: {number}
-          </p>
+        <li key={id} className={styles.contactItem}>
+          <img
+            src={toonavatar.generate_avatar()}
+            alt="img"
+            width="60"
+            className={styles.contactImg}
+          />
+          <div>
+            <p>{name}:</p>
+            <p>{number}</p>
+          </div>
 
-          <Button type="button" text="Delete" onClick={() => onDeleteItem(id)} />
+          <Button type="button" text="&#128473;" onClick={() => onDeleteItem(id)} />
         </li>
       ))}
     </ul>
