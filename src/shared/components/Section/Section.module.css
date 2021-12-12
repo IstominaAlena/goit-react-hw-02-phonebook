@@ -1,5 +1,6 @@
-section {
-  padding-top: 10px;
+.contacts,
+.phonebook {
+  padding-top: 20px;
   padding-bottom: 10px;
 }
 
