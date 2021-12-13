@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Input from '../../shared/components/Input';
 import Button from '../../shared/components/Button';
 
-import styles from './Form.module.css';
+import styles from './ForContacts.module.css';
 
-class Form extends Component {
+class FormContacts extends Component {
   state = {
     name: '',
     number: '',
   };
 
   handleInputChange = e => {
-    const { name, value } = e.currentTarget;
+    const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
@@ -62,4 +63,8 @@ class Form extends Component {
   }
 }
 
-export default Form;
+export default FormContacts;
+
+FormContacts.propTypes = {
+  submitedData: PropTypes.func.isRequired,
+};

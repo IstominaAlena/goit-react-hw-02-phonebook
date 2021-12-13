@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 
 import Section from './shared/components/Section';
-import Form from './components/Form';
+import FormContacts from './components/FormContacts';
 import Input from './shared/components/Input';
 import ContactList from './components/ContactList';
 
@@ -19,28 +19,14 @@ class App extends Component {
     filter: '',
   };
 
-  checkContactHandler = formState => {
-    this.emptyCheckFn(formState);
-
-    // const lowerCaseName = formState.name.toLowerCase();
-    // const contact = {
-    //   ...formState,
-    //   id: nanoid(),
-    // };
-
-    // this.setState(prevState => {
-    //   const findInArray = prevState.contacts.find(({ name }) => {
-    //     const lowerCaseStateName = name.toLowerCase();
-    //     return lowerCaseStateName === lowerCaseName;
-    //   });
-
-    //   if (findInArray) {
-    //     return alert(`${formState.name} is already in your contacts!`);
-    //   }
-    //   return {
-    //     contacts: [...prevState.contacts, contact],
-    //   };
-    // });
+  checkContactHandler = ({ name, number }) => {
+    if (!name) {
+      return alert('Please enter name!');
+    }
+    if (!number) {
+      return alert('Please enter number!');
+    }
+    this.addContactHandler({ name, number });
   };
 
   deleteContactHandler = id => {
@@ -56,11 +42,12 @@ class App extends Component {
 
   filterContactsHandler = () => {
     const { contacts, filter } = this.state;
-    const lowerCaseFilter = filter.toLowerCase();
 
     if (!filter) {
       return contacts;
     }
+
+    const lowerCaseFilter = filter.toLowerCase();
 
     const filteredContacts = contacts.filter(({ name }) => {
       const lowerCaseName = name.toLowerCase();
@@ -68,16 +55,6 @@ class App extends Component {
     });
 
     return filteredContacts;
-  };
-
-  emptyCheckFn = ({ name, number }) => {
-    if (!name) {
-      return alert('Please enter name!');
-    }
-    if (!number) {
-      return alert('Please enter number!');
-    }
-    this.addContactHandler({ name, number });
   };
 
   addContactHandler = ({ name, number }) => {
@@ -116,7 +93,7 @@ class App extends Component {
     return (
       <>
         <Section title={'Phonebook'} classEl={'phonebook'}>
-          <Form submitedData={checkContactHandler} />
+          <FormContacts submitedData={checkContactHandler} />
           <Input
             labelName="Find contact by name"
             value={this.state.filter}
